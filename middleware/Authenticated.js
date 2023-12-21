@@ -1,10 +1,11 @@
 const jsonToken = require('jsonwebtoken')
 const AuthUser = require('../models/Auth')
+const { StatusCodes } = require('http-status-codes')
 
 const checkAuthenticated = async (req, res, next) => {
   const token = req.cookies.token
   if (!token) {
-    res.status(401).json({message:'Token not found'})
+    res.status(StatusCodes.UNAUTHORIZED).json({message:'Token not found'})
   }
   
   try {
@@ -14,9 +15,9 @@ const checkAuthenticated = async (req, res, next) => {
     if (user) {
       return next()
     }
-    res.status(404).json({message:'User cannot be found'})
+    res.status(StatusCodes.NOT_FOUND).json({message:'User cannot be found'})
   } catch (error) {
-    res.status(401).json({message:'Unauthorized to access'})
+    res.status(StatusCodes.UNAUTHORIZED).json({message:'Unauthorized to access'})
   }
 
   // if (req.isAuthenticated()) {

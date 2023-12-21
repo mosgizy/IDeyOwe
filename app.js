@@ -11,6 +11,13 @@ const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
 const AuthRouter = require('./routes/Auth')
 const GoogleAuth = require('./routes/Google')
+const DeptRoute = require('./routes/Deptor')
+
+const helmet = require('helmet')
+const cors = require('cors')
+const xss = require('xss-clean')
+const rateLimiter = require('express-rate-limit')
+
 const ConnectDB = require('./db/connect')
 
 const checkAuthenticated = require('./middleware/Authenticated')
@@ -47,17 +54,30 @@ passport.deserializeUser((user, done) => {
   done (null, user)
 })
 
+app.set('trust proxy',1)
+app.use(rateLimiter({
+  windows: 15 * 60 * 1000,
+  max:100
+}))
+app.use(express.json())
+app.use(helmet())
+app.use(cors())
+app.use(xss())
+
 app.use('/api/v1/auth/google',GoogleAuth)
 
 app.get('/api/v1/dashboard',checkAuthenticated, (req, res) => {
   res.status(200).json({user:req.user})
 });
 
-app.get('/', (req, res) => {
-  res.send('hello deptors')
-})
+app.use('/api/v1/dept',checkAuthenticated,DeptRoute)
 
 app.use('/api/v1/auth',AuthRouter)
+
+app.get('/', (req, res) => {
+  res.send('Hello deptors')
+})
+
 
 const port = process.env.PORT || 3000
 

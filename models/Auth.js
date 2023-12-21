@@ -11,7 +11,7 @@ const AuthSchema = mongoose.Schema({
   phoneNumber: {
     type: String,
     // required: [true, 'Please provide a phone number'],
-    match: [/^[0-9]{10}$/,'Please provide a valid phone number'],
+    match: [/^[0-9]{11}$/,'Please provide a valid phone number'],
     unique: true,
     sparse: true, 
     trim: true
@@ -48,4 +48,9 @@ AuthSchema.methods.createJWT = function () {
   return jsonToken.sign({userId:this._id,name:this.name},process.env.JWT_SECRET,{expiresIn:process.env.JWT_LIFETIME})
 }
 
-module.exports = mongoose.model('USER',AuthSchema)
+AuthSchema.methods.comparePassword = async function (userPassword) {
+  const isMatch = await bcrypt.compare(userPassword, this.password)
+  return isMatch
+}
+
+module.exports = mongoose.model('User',AuthSchema)
