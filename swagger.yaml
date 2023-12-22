@@ -16,182 +16,6 @@ servers:
 
 paths:
 
-  /dept:
-
-    get:
-
-      tags:
-
-      - Store
-
-      summary: Get All Store
-
-      operationId: GetAllStore
-
-      parameters: []
-
-      responses:
-
-        '200':
-
-          description: ''
-
-          headers: {}
-
-      deprecated: false
-
-    post:
-
-      tags:
-
-      - Store
-
-      summary: Create Store
-
-      operationId: CreateStore
-
-      parameters: []
-
-      requestBody:
-
-        description: ''
-
-        content:
-
-          application/json:
-
-            schema:
-
-              allOf:
-
-              - $ref: '#/components/schemas/CreateStoreRequest'
-
-              - example:
-
-                  title: iya basit
-
-                  description: Nah here sure pass
-
-            example:
-
-              title: iya basit
-
-              description: Nah here sure pass
-
-        required: true
-
-      responses:
-
-        '200':
-
-          description: ''
-
-          headers: {}
-
-      deprecated: false
-
-  /dept/{id}:
-    parameters:
-      - in: path
-        name: id
-        schema: 
-          type: string
-        required: true
-        description: store ID
-    get:
-
-      tags:
-
-      - Store
-
-      summary: Get Store
-
-      operationId: GetStore
-
-      parameters: []
-
-      responses:
-
-        '200':
-
-          description: ''
-
-          headers: {}
-
-      deprecated: false
-
-    patch:
-
-      tags:
-
-      - Store
-
-      summary: Update Store
-
-      operationId: UpdateStore
-
-      parameters: []
-
-      requestBody:
-
-        description: ''
-
-        content:
-
-          application/json:
-
-            schema:
-
-              allOf:
-
-              - $ref: '#/components/schemas/UpdateStoreRequest'
-
-              - example:
-
-                  title: iya basit 2
-
-                  description: Nah here sure pass
-
-            example:
-
-              title: iya basit 2
-
-              description: Nah here sure pass
-
-        required: true
-
-      responses:
-
-        '200':
-
-          description: ''
-
-          headers: {}
-
-      deprecated: false
-
-    delete:
-
-      tags:
-
-      - Store
-
-      summary: Delete Store
-
-      operationId: DeleteStore
-
-      parameters: []
-
-      responses:
-
-        '200':
-
-          description: ''
-
-          headers: {}
-
-      deprecated: false
-
   /auth/register:
 
     post:
@@ -304,6 +128,207 @@ paths:
 
       security: []
 
+  /auth/logout:
+
+    get:
+
+      tags:
+
+      - Auth
+
+      summary: logout
+
+      operationId: logout
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+  /dept:
+
+    get:
+
+      tags:
+
+      - Store
+
+      summary: Get All Store
+
+      operationId: GetAllStore
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+    post:
+
+      tags:
+
+      - Store
+
+      summary: Create Store
+
+      operationId: CreateStore
+
+      parameters: []
+
+      requestBody:
+
+        description: ''
+
+        content:
+
+          application/json:
+
+            schema:
+
+              allOf:
+
+              - $ref: '#/components/schemas/CreateStoreRequest'
+
+              - example:
+
+                  title: iya basit
+
+                  description: Nah here sure pass
+
+            example:
+
+              title: iya basit
+
+              description: Nah here sure pass
+
+        required: true
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+  /dept/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema: 
+          type: string
+        required: true
+        description: store ID
+
+    get:
+
+      tags:
+
+      - Store
+
+      summary: Get Store
+
+      operationId: GetStore
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+    patch:
+
+      tags:
+
+      - Store
+
+      summary: Update Store
+
+      operationId: UpdateStore
+
+      parameters: []
+
+      requestBody:
+
+        description: ''
+
+        content:
+
+          application/json:
+
+            schema:
+
+              allOf:
+
+              - $ref: '#/components/schemas/UpdateStoreRequest'
+
+              - example:
+
+                  title: iya basit 2
+
+                  description: Nah here sure pass
+
+            example:
+
+              title: iya basit 2
+
+              description: Nah here sure pass
+
+        required: true
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+    delete:
+
+      tags:
+
+      - Store
+
+      summary: Delete Store
+
+      operationId: DeleteStore
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
   /dept/{storeId}/item:
   
     parameters:
@@ -319,6 +344,7 @@ paths:
           schema:
           
             type: string
+
     get:
 
       tags:
@@ -328,6 +354,8 @@ paths:
       summary: Get All Items
 
       operationId: GetAllItems
+
+      parameters: []
 
       responses:
 
@@ -515,62 +543,6 @@ components:
 
   schemas:
 
-    CreateStoreRequest:
-
-      title: CreateStoreRequest
-
-      required:
-
-      - title
-
-      - description
-
-      type: object
-
-      properties:
-
-        title:
-
-          type: string
-
-        description:
-
-          type: string
-
-      example:
-
-        title: iya basit
-
-        description: Nah here sure pass
-
-    UpdateStoreRequest:
-
-      title: UpdateStoreRequest
-
-      required:
-
-      - title
-
-      - description
-
-      type: object
-
-      properties:
-
-        title:
-
-          type: string
-
-        description:
-
-          type: string
-
-      example:
-
-        title: iya basit 2
-
-        description: Nah here sure pass
-
     registerrequest:
 
       title: registerrequest
@@ -634,6 +606,62 @@ components:
         phoneNumber: '08148801473'
 
         password: secret
+
+    CreateStoreRequest:
+
+      title: CreateStoreRequest
+
+      required:
+
+      - title
+
+      - description
+
+      type: object
+
+      properties:
+
+        title:
+
+          type: string
+
+        description:
+
+          type: string
+
+      example:
+
+        title: iya basit
+
+        description: Nah here sure pass
+
+    UpdateStoreRequest:
+
+      title: UpdateStoreRequest
+
+      required:
+
+      - title
+
+      - description
+
+      type: object
+
+      properties:
+
+        title:
+
+          type: string
+
+        description:
+
+          type: string
+
+      example:
+
+        title: iya basit 2
+
+        description: Nah here sure pass
 
     CreateItemRequest:
 
@@ -709,9 +737,9 @@ security:
 
 tags:
 
-- name: Store
-
 - name: Auth
+
+- name: Store
 
 - name: Item
 
