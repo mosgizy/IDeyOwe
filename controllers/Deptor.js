@@ -1,4 +1,5 @@
 const Dept = require('../models/Deptor')
+const Item = require('../models/ItemsBought')
 const { StatusCodes } = require('http-status-codes')
 
 const getAllDepts = async (req, res) => {
@@ -6,8 +7,8 @@ const getAllDepts = async (req, res) => {
   const limit = Number(req.query.limit) || 10
   const skip = (page-1) * limit
   try {
-    const dept = await Dept.find({}).sort('createdAt').skip(skip).limit(limit)
-    res.status(StatusCodes.OK).json({message:'Dept fetched successfully',dept,nbHits:dept.length})
+    const dept = await Dept.find({createdBy:req.user._id}).sort('createdAt').skip(skip).limit(limit)
+    res.status(StatusCodes.OK).json({message:'Store fetched successfully',dept,nbHits:dept.length})
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:'An error occured please try again later',error})
   }
@@ -17,7 +18,7 @@ const createDept = async (req, res) => {
   req.body.createdBy = req.user._id
   try {
     const dept = await Dept.create(req.body)
-    res.status(201).json({message:'Dept successfully created',dept})
+    res.status(StatusCodes.CREATED).json({message:'Store successfully created',dept})
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:'An error occured please try again later',error})
   }
@@ -25,11 +26,12 @@ const createDept = async (req, res) => {
 
 const getDept = async (req, res) => {
   try {
-    const dept = await Dept.findById({ _id: req.params.id })
+    const dept = await Dept.findOne({ _id: req.params.id, createdBy: req.user._id })
+
     if (!dept) {
-      return res.status(StatusCodes.NOT_FOUND).json({ message: 'Dept not found' });
+      return res.status(StatusCodes.NOT_FOUND).json({ message: 'Store not found' });
     }
-    res.status(StatusCodes.OK).json({message:'Dept fetched successfully',dept})
+    res.status(StatusCodes.OK).json({message:'Store fetched successfully',dept})
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:'An error occured please try again later',error})
   }
@@ -46,9 +48,9 @@ const updateDept = async (req, res) => {
       { new: true, runValidators: true }
     )
     if (!dept) {
-      return res.status(StatusCodes.NOT_FOUND).json({ message: 'Dept not found' });
+      return res.status(StatusCodes.NOT_FOUND).json({ message: 'Store not found' });
     }
-    res.status(StatusCodes.OK).json({message:'Dept updated successfully',dept})
+    res.status(StatusCodes.OK).json({message:'Store updated successfully',dept})
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:'An error occured please try again later',error})
   }
@@ -56,11 +58,12 @@ const updateDept = async (req, res) => {
 
 const deleteDept = async (req, res) => {
   try {
-    const dept = await Dept.findOneAndDelete({ _id: req.params.id })
+    const dept = await Dept.findOneAndDelete({ _id: req.params.id,createdBy:req.user._id })
+    await Item.deleteMany({dept:req.params.id})
     if (!dept) {
-      return res.status(StatusCodes.NOT_FOUND).json({ message: 'Dept not found' });
+      return res.status(StatusCodes.NOT_FOUND).json({ message: 'Store not found' });
     }
-    res.status(StatusCodes.OK).json({message:'Dept deleted successfully'})
+    res.status(StatusCodes.OK).json({message:'Store deleted successfully'})
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:'An error occured please try again later',error})
   }

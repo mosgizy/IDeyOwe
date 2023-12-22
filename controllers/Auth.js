@@ -2,8 +2,8 @@ const Auth = require('../models/Auth')
 const { StatusCodes } = require('http-status-codes')
 
 const login = async (req, res) => {
-  const { name, phoneNumber,password } = req.body
-  if (!name || !phoneNumber || !password) {
+  const { phoneNumber,password } = req.body
+  if (!phoneNumber || !password) {
     res.status(StatusCodes.UNAUTHORIZED).json({message:'Please provide valid credentials'})
   }
 

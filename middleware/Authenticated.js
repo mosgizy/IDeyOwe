@@ -4,26 +4,34 @@ const { StatusCodes } = require('http-status-codes')
 
 const checkAuthenticated = async (req, res, next) => {
   const token = req.cookies.token
-  if (!token) {
-    res.status(StatusCodes.UNAUTHORIZED).json({message:'Token not found'})
-  }
   
   try {
+    if (!token) {
+      res.status(StatusCodes.UNAUTHORIZED).json({message:'Please login'})
+    }
     const payload = jsonToken.verify(token, process.env.JWT_SECRET)
+
+    if (!payload || !payload.userId) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid token' });
+    }
+
     const user = await AuthUser.findOne({ _id: payload.userId }).select('-password')
     req.user = user
-    if (user) {
-      return next()
+
+    if (!user) {
+      res.status(StatusCodes.NOT_FOUND).json({message:'User cannot be found'})
     }
-    res.status(StatusCodes.NOT_FOUND).json({message:'User cannot be found'})
+
+    next()
   } catch (error) {
-    res.status(StatusCodes.UNAUTHORIZED).json({message:'Unauthorized to access'})
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid token' });
+    } else if (error.name === 'TokenExpiredError') {
+      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Token has expired' });
+    }
+    
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' });
   }
-
-  // if (req.isAuthenticated()) {
-  // }
-
-  // res.redirect('localhost:3000/api/v1/auth/login');
 }
 
 module.exports = checkAuthenticated

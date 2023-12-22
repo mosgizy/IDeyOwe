@@ -1,0 +1,717 @@
+openapi: 3.0.0
+
+info:
+
+  title: Dept API
+
+  contact: {}
+
+  version: '1.0'
+
+servers:
+
+- url: http://localhost:3000
+
+  variables: {}
+
+paths:
+
+  /dept:
+
+    get:
+
+      tags:
+
+      - Store
+
+      summary: Get All Store
+
+      operationId: GetAllStore
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+    post:
+
+      tags:
+
+      - Store
+
+      summary: Create Store
+
+      operationId: CreateStore
+
+      parameters: []
+
+      requestBody:
+
+        description: ''
+
+        content:
+
+          application/json:
+
+            schema:
+
+              allOf:
+
+              - $ref: '#/components/schemas/CreateStoreRequest'
+
+              - example:
+
+                  title: iya basit
+
+                  description: Nah here sure pass
+
+            example:
+
+              title: iya basit
+
+              description: Nah here sure pass
+
+        required: true
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+  /dept/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema: 
+          type: string
+        required: true
+        description: store ID
+    get:
+
+      tags:
+
+      - Store
+
+      summary: Get Store
+
+      operationId: GetStore
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+    patch:
+
+      tags:
+
+      - Store
+
+      summary: Update Store
+
+      operationId: UpdateStore
+
+      parameters: []
+
+      requestBody:
+
+        description: ''
+
+        content:
+
+          application/json:
+
+            schema:
+
+              allOf:
+
+              - $ref: '#/components/schemas/UpdateStoreRequest'
+
+              - example:
+
+                  title: iya basit 2
+
+                  description: Nah here sure pass
+
+            example:
+
+              title: iya basit 2
+
+              description: Nah here sure pass
+
+        required: true
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+    delete:
+
+      tags:
+
+      - Store
+
+      summary: Delete Store
+
+      operationId: DeleteStore
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+  /auth/register:
+
+    post:
+
+      tags:
+
+      - Auth
+
+      summary: register
+
+      operationId: register
+
+      parameters: []
+
+      requestBody:
+
+        description: ''
+
+        content:
+
+          application/json:
+
+            schema:
+
+              allOf:
+
+              - $ref: '#/components/schemas/registerrequest'
+
+              - example:
+
+                  name: asterisk
+
+                  phoneNumber: '08148801473'
+
+                  password: secret
+
+            example:
+
+              name: asterisk
+
+              phoneNumber: '08148801473'
+
+              password: secret
+
+        required: true
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+      security: []
+
+  /auth/login:
+
+    post:
+
+      tags:
+
+      - Auth
+
+      summary: login
+
+      operationId: login
+
+      parameters: []
+
+      requestBody:
+
+        description: ''
+
+        content:
+
+          application/json:
+
+            schema:
+
+              allOf:
+
+              - $ref: '#/components/schemas/loginrequest'
+
+              - example:
+
+                  phoneNumber: '08148801473'
+
+                  password: secret
+
+            example:
+
+              phoneNumber: '08148801473'
+
+              password: secret
+
+        required: true
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+      security: []
+
+  /dept/{storeId}/item:
+  
+    parameters:
+    
+        - name: storeId
+        
+          in: path
+          
+          description: ID of the store to retrieve items from
+          
+          required: true
+          
+          schema:
+          
+            type: string
+    get:
+
+      tags:
+
+      - Item
+
+      summary: Get All Items
+
+      operationId: GetAllItems
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+    post:
+
+      tags:
+
+      - Item
+
+      summary: Create Item
+
+      operationId: CreateItem
+
+      parameters: []
+
+      requestBody:
+
+        description: ''
+
+        content:
+
+          application/json:
+
+            schema:
+
+              allOf:
+
+              - $ref: '#/components/schemas/CreateItemRequest'
+
+              - example:
+
+                  itemName: rice
+
+                  price: 3200
+
+            example:
+
+              itemName: rice
+
+              price: 3200
+
+        required: true
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+  /dept/{storeId}/item/{itemId}:
+  
+    parameters:
+    
+        - name: storeId
+        
+          in: path
+          
+          description: ID of the store to retrieve the item from
+          
+          required: true
+          
+          schema:
+          
+            type: string
+            
+        - name: itemId
+        
+          in: path
+          
+          description: ID of the item to retrieve
+          
+          required: true
+          
+          schema:
+          
+            type: string
+
+    get:
+
+      tags:
+
+      - Item
+
+      summary: Get Item
+
+      operationId: GetItem
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+    patch:
+
+      tags:
+
+      - Item
+
+      summary: Update Item
+
+      operationId: UpdateItem
+
+      parameters: []
+
+      requestBody:
+
+        description: ''
+
+        content:
+
+          application/json:
+
+            schema:
+
+              allOf:
+
+              - $ref: '#/components/schemas/UpdateItemRequest'
+
+              - example:
+
+                  itemName: meat
+
+                  price: 3300
+
+            example:
+
+              itemName: meat
+
+              price: 3300
+
+        required: true
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+    delete:
+
+      tags:
+
+      - Item
+
+      summary: Delete Item
+
+      operationId: DeleteItem
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+components:
+
+  schemas:
+
+    CreateStoreRequest:
+
+      title: CreateStoreRequest
+
+      required:
+
+      - title
+
+      - description
+
+      type: object
+
+      properties:
+
+        title:
+
+          type: string
+
+        description:
+
+          type: string
+
+      example:
+
+        title: iya basit
+
+        description: Nah here sure pass
+
+    UpdateStoreRequest:
+
+      title: UpdateStoreRequest
+
+      required:
+
+      - title
+
+      - description
+
+      type: object
+
+      properties:
+
+        title:
+
+          type: string
+
+        description:
+
+          type: string
+
+      example:
+
+        title: iya basit 2
+
+        description: Nah here sure pass
+
+    registerrequest:
+
+      title: registerrequest
+
+      required:
+
+      - name
+
+      - phoneNumber
+
+      - password
+
+      type: object
+
+      properties:
+
+        name:
+
+          type: string
+
+        phoneNumber:
+
+          type: string
+
+        password:
+
+          type: string
+
+      example:
+
+        name: asterisk
+
+        phoneNumber: '08148801473'
+
+        password: secret
+
+    loginrequest:
+
+      title: loginrequest
+
+      required:
+
+      - phoneNumber
+
+      - password
+
+      type: object
+
+      properties:
+
+        phoneNumber:
+
+          type: string
+
+        password:
+
+          type: string
+
+      example:
+
+        phoneNumber: '08148801473'
+
+        password: secret
+
+    CreateItemRequest:
+
+      title: CreateItemRequest
+
+      required:
+
+      - itemName
+
+      - price
+
+      type: object
+
+      properties:
+
+        itemName:
+
+          type: string
+
+        price:
+
+          type: integer
+
+          format: int32
+
+      example:
+
+        itemName: rice
+
+        price: 3200
+
+    UpdateItemRequest:
+
+      title: UpdateItemRequest
+
+      required:
+
+      - itemName
+
+      - price
+
+      type: object
+
+      properties:
+
+        itemName:
+
+          type: string
+
+        price:
+
+          type: integer
+
+          format: int32
+
+      example:
+
+        itemName: meat
+
+        price: 3300
+
+  securitySchemes:
+
+    httpBearer:
+
+      type: http
+
+      scheme: bearer
+
+security:
+
+- httpBearer: []
+
+tags:
+
+- name: Store
+
+- name: Auth
+
+- name: Item
+

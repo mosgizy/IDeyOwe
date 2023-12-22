@@ -10,7 +10,7 @@ const ItemBoughtSchema = new mongoose.Schema({
     type: Number,
     required:[true,'Please provide amount owe']
   },
-  item: {
+  dept: {
     type: mongoose.Types.ObjectId,
     ref: 'dept'
   },

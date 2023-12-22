@@ -12,6 +12,7 @@ const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 const AuthRouter = require('./routes/Auth')
 const GoogleAuth = require('./routes/Google')
 const DeptRoute = require('./routes/Deptor')
+const ItemRoute = require('./routes/Item')
 
 const helmet = require('helmet')
 const cors = require('cors')
@@ -21,6 +22,8 @@ const rateLimiter = require('express-rate-limit')
 const ConnectDB = require('./db/connect')
 
 const checkAuthenticated = require('./middleware/Authenticated')
+const notFoundMiddleware = require('./middleware/notFound')
+const errorHandlerMiddlerware = require('./middleware/errorHandler')
 
 app.use(express.json())
 
@@ -43,7 +46,8 @@ passport.use(new GoogleStrategy({
     clientID:     process.env.GOOGLE_CLIENTID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/api/v1/auth/google/callback",
-    passReqToCallback   : true
+    passReqToCallback: true,
+    // accessType: 'offline'
 }, authUser));
   
 passport.serializeUser( (user, done) => { 
@@ -64,20 +68,29 @@ app.use(helmet())
 app.use(cors())
 app.use(xss())
 
+const swaggerUI = require('swagger-ui-express')
+const YAML = require('yamljs');
+const swaggerDocs = YAML.load('./swagger.yaml')
+
+app.get('/', (req, res) => {
+  res.send('<h1>Deptor Api</h1><a href="/api-docs">Documentation</a>')
+})
+
+app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(swaggerDocs))
+
 app.use('/api/v1/auth/google',GoogleAuth)
 
 app.get('/api/v1/dashboard',checkAuthenticated, (req, res) => {
   res.status(200).json({user:req.user})
 });
 
-app.use('/api/v1/dept',checkAuthenticated,DeptRoute)
+app.use('/api/v1/dept', checkAuthenticated, DeptRoute)
+app.use('/api/v1/dept/:id/item', checkAuthenticated,ItemRoute)
 
-app.use('/api/v1/auth',AuthRouter)
+app.use('/api/v1/auth', AuthRouter)
 
-app.get('/', (req, res) => {
-  res.send('Hello deptors')
-})
-
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddlerware)
 
 const port = process.env.PORT || 3000
 
