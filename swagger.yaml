@@ -10,7 +10,7 @@ info:
 
 servers:
 
-- url: https://dept.onrender.com
+- url: https://dept.onrender.com/api/v1
 
   variables: {}
 
