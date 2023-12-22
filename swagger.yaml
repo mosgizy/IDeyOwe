@@ -10,7 +10,7 @@ info:
 
 servers:
 
-- url: http://localhost:3000
+- url: https://dept.onrender.com
 
   variables: {}
 
