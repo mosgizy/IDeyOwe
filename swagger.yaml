@@ -127,6 +127,32 @@ paths:
       deprecated: false
 
       security: []
+  
+  /auth/google:
+
+    get:
+
+      tags:
+
+      - Auth
+
+      summary: google
+
+      operationId: google
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+      
+      security: []    
 
   /auth/logout:
 
@@ -227,12 +253,19 @@ paths:
       deprecated: false
 
   /dept/{id}:
+  
     parameters:
+    
       - in: path
+      
         name: id
-        schema: 
+        
+        schema:
+        
           type: string
+          
         required: true
+        
         description: store ID
 
     get:
@@ -344,6 +377,7 @@ paths:
           schema:
           
             type: string
+
 
     get:
 
@@ -526,6 +560,30 @@ paths:
       summary: Delete Item
 
       operationId: DeleteItem
+
+      parameters: []
+
+      responses:
+
+        '200':
+
+          description: ''
+
+          headers: {}
+
+      deprecated: false
+
+  /user:
+
+    get:
+
+      tags:
+
+      - User
+
+      summary: Get User
+
+      operationId: GetUser
 
       parameters: []
 
@@ -742,4 +800,6 @@ tags:
 - name: Store
 
 - name: Item
+
+- name: User
 

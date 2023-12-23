@@ -13,6 +13,7 @@ const AuthRouter = require('./routes/Auth')
 const GoogleAuth = require('./routes/Google')
 const DeptRoute = require('./routes/Deptor')
 const ItemRoute = require('./routes/Item')
+const UserRoute = require('./routes/User')
 
 const helmet = require('helmet')
 const cors = require('cors')
@@ -80,12 +81,9 @@ app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(swaggerDocs))
 
 app.use('/api/v1/auth/google',GoogleAuth)
 
-app.get('/api/v1/dashboard',checkAuthenticated, (req, res) => {
-  res.status(200).json({user:req.user})
-});
-
 app.use('/api/v1/dept', checkAuthenticated, DeptRoute)
-app.use('/api/v1/dept/:id/item', checkAuthenticated,ItemRoute)
+app.use('/api/v1/dept/:id/item', checkAuthenticated, ItemRoute)
+app.use('/api/v1/user', checkAuthenticated,UserRoute)
 
 app.use('/api/v1/auth', AuthRouter)
 

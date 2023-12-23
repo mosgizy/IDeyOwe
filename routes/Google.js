@@ -27,7 +27,7 @@ router.route('/callback').get(passport.authenticate('google', { failureRedirect:
 
     res.cookie('token', token, { maxAge: 3600000, httpOnly: true });
     // res.status(201).json({token:userAuth.createJWT(),user:{name:userAuth.name,Email:userAuth.email}})
-    res.redirect('/api/v1/dashboard');
+    res.redirect('/api/v1/dept');
   }
 );
 
