@@ -45,7 +45,7 @@ AuthSchema.pre('save', async function () {
 })
 
 AuthSchema.methods.createJWT = function () {
-  return jsonToken.sign({userId:this._id,name:this.name},process.env.JWT_SECRET,{expiresIn:process.env.JWT_LIFETIME})
+  return jsonToken.sign({userId:this._id,name:this.name},process.env.JWT_SECRET,{expiresIn:process.env.JWT_LIFETIME,samesite:'none',secure:true})
 }
 
 AuthSchema.methods.comparePassword = async function (userPassword) {

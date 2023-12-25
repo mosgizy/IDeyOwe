@@ -66,7 +66,7 @@ app.use(rateLimiter({
 }))
 app.use(express.json())
 app.use(helmet())
-app.use(cors())
+app.use(cors({ origin: ['http://localhost:3000'], credentials: true }))
 app.use(xss())
 
 const swaggerUI = require('swagger-ui-express')
@@ -90,7 +90,7 @@ app.use('/api/v1/auth', AuthRouter)
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddlerware)
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 
 const start = async () => {
   try {
