@@ -33,8 +33,10 @@ app.use(require('express-session')(
     secret: process.env.GOOGLE_CLIENT_SECRET,
     resave: true,
     saveUninitialized: true,
-    sameSite: 'None',
-    secure:true
+    cookie: {
+      sameSite: 'None',
+      secure:true
+    }
   }));
 app.use(passport.initialize());
 app.use(passport.session());
