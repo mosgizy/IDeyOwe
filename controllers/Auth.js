@@ -43,8 +43,19 @@ const logout = (req, res,next) => {
   req.logout(function(err) {
     if (err) { return next(err); }
     // res.redirect('localhost:3000/api/v1/auth/login');
-    res.clearCookie('token');
-    res.status(StatusCodes.OK).send('logout successfully')
+    // res.clearCookie();
+    const cookies = req.cookies;
+    for (const cookieName in cookies) {
+      res.clearCookie(cookieName);
+    }
+
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+      }
+    });
+    
+    res.status(StatusCodes.OK).json({message:'logout successfully'})
   });
 }
 
