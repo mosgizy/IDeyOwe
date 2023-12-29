@@ -39,11 +39,12 @@ const register = async (req, res) => {
   res.status(StatusCodes.CREATED).json({user:{name:user.name,phoneNumber:user.phoneNumber},message:'Check cookies for token'})
 }
 
-const logout = (req, res,next) => {
-  req.logout(function(err) {
-    if (err) { return next(err); }
-    // res.redirect('localhost:3000/api/v1/auth/login');
-    // res.clearCookie();
+const logout = (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+
     const cookies = req.cookies;
     for (const cookieName in cookies) {
       res.clearCookie(cookieName);
@@ -52,12 +53,13 @@ const logout = (req, res,next) => {
     req.session.destroy((err) => {
       if (err) {
         console.error('Error destroying session:', err);
-      }
+        return next(err);
+      }      
+
+      res.status(StatusCodes.OK).json({ message: 'Logout successful' });
     });
-    
-    res.status(StatusCodes.OK).json({message:'logout successfully'})
   });
-}
+};
 
 module.exports = {
   login,
