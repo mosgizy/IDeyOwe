@@ -40,6 +40,7 @@ const register = async (req, res) => {
 }
 
 const logout = (req, res, next) => {
+  res.clearCookie('token');
   req.logout((err) => {
     if (err) {
       return next(err);
