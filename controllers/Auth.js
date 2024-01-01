@@ -1,5 +1,6 @@
 const Auth = require('../models/Auth')
 const { StatusCodes } = require('http-status-codes')
+const jwt = require('jsonwebtoken')
 
 const login = async (req, res) => {
   const { phoneNumber,password } = req.body
@@ -40,7 +41,6 @@ const register = async (req, res) => {
 }
 
 const logout = (req, res, next) => {
-  res.clearCookie('token');
   req.logout((err) => {
     if (err) {
       return next(err);

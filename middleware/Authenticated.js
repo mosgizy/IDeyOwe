@@ -16,11 +16,12 @@ const checkAuthenticated = async (req, res, next) => {
     }
 
     const user = await AuthUser.findOne({ _id: payload.userId }).select('-password')
-    req.user = user
-
+    
     if (!user) {
       res.status(StatusCodes.NOT_FOUND).json({message:'User cannot be found'})
     }
+    
+    req.user = user
 
     next()
   } catch (error) {
