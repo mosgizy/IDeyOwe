@@ -21,7 +21,7 @@ const login = async (req, res) => {
 
   const token = user.createJWT()
 
-  res.cookie('token', token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true,sameSite: 'None', secure: true });
+  res.cookie('token', token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true,sameSite: 'None', secure: true,path:'/' });
   res.status(StatusCodes.OK).json({user:{name:user.name,phoneNumber:user.phoneNumber},message:'Check cookies for token'})
   
 }
@@ -36,7 +36,7 @@ const register = async (req, res) => {
 
   const token = user.createJWT()
 
-  res.cookie('token', token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true,sameSite: 'None', secure: true });
+  res.cookie('token', token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true,sameSite: 'None', secure: true,path:'/' });
   res.status(StatusCodes.CREATED).json({user:{name:user.name,phoneNumber:user.phoneNumber},message:'Check cookies for token'})
 }
 
